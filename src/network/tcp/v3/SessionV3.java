@@ -8,11 +8,13 @@ import java.net.Socket;
 import static util.MyLogger.log;
 
 public class SessionV3 implements Runnable {
+
     private final Socket socket;
 
     public SessionV3(Socket socket) {
         this.socket = socket;
     }
+
 
     @Override
     public void run() {
@@ -21,6 +23,7 @@ public class SessionV3 implements Runnable {
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
             while (true) {
+                // 클라이언트로부터 문자 받기
                 String received = input.readUTF();
                 log("client -> server: " + received);
 
@@ -32,6 +35,8 @@ public class SessionV3 implements Runnable {
                 output.writeUTF(toSend);
                 log("client <- server: " + toSend);
             }
+
+            // 자원정리
             log("연결 종료: " + socket);
             input.close();
             output.close();
@@ -41,3 +46,6 @@ public class SessionV3 implements Runnable {
         }
     }
 }
+/*
+* 자바 객체는 GC가 되지만, 자바 외부의 자원은 자동으로 GC가 되는게 아니다. 따라서 꼭 정리를 해줘야함
+* */

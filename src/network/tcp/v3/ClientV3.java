@@ -18,12 +18,11 @@ public class ClientV3 {
         DataOutputStream output = new DataOutputStream(socket.getOutputStream());
         log("소켓 연결: " + socket);
 
-
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.print("전송 문자: ");
+            System.out.println("전송 문자: ");
             String toSend = scanner.nextLine();
-
+            // 서버에 문자 보내기
             output.writeUTF(toSend);
             log("client -> server: " + toSend);
 
@@ -31,6 +30,7 @@ public class ClientV3 {
                 break;
             }
 
+            // 서버로부터 문자 받기
             String received = input.readUTF();
             log("client <- server: " + received);
         }
